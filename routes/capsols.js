@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require("mongoose");
+const { geoSearch } = require('../models/Capsol');
 
 const Capsol = require("../models/Capsol");
 const Entry = require("../models/Entry");
@@ -8,6 +9,30 @@ const Entry = require("../models/Entry");
 // get all capsols
 router.get('/', async (req, res) => {
   let capsols = await Capsol.find({});
+  res.send(capsols);
+});
+
+// get all capsols around a certain position
+router.get('/around', async (req, res) => {
+  let location;
+  let distance;
+  try {
+    location = {
+      type: 'Point',
+      coordinates: [parseFloat(req.query.lon), parseFloat(req.query.lat)]
+    };
+    distance = parseFloat(req.query.radius);
+  } catch (error) {
+    res.sendStatus(422);
+  }
+
+  let capsols = await Capsol.find().where('location').near({
+    center: location,
+    geometry: location,
+    minDistance: 0,
+    maxDistance: distance
+  });
+
   res.send(capsols);
 });
 
