@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 router.get('/:capsolId', async (req, res) => {
   try {
     let capsol = await Capsol.findById(new mongoose.Types.ObjectId(req.params.capsolId)); 
-    res.send(capsolData);
+    res.send(capsol);
   } catch (error) {
     res.sendStatus(404);
   }
