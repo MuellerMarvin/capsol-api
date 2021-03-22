@@ -7,4 +7,4 @@ const schema = mongoose.Schema({
     capsol: mongoose.Types.ObjectId,
 });
 
-module.exports = mongoose.model("Entry", schema)
+module.exports = mongoose.model("Entry", schema, 'entries');

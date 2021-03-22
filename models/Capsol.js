@@ -6,4 +6,4 @@ const schema = mongoose.Schema({
 	entries: Array
 });
 
-module.exports = mongoose.model("Capsol", schema)
+module.exports = mongoose.model("Capsol", schema, 'capsols');

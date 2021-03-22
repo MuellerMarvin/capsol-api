@@ -4,4 +4,4 @@ const schema = mongoose.Schema({
 	username: String,
 });
 
-module.exports = mongoose.model("User", schema)
+module.exports = mongoose.model("User", schema, 'users');

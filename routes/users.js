@@ -7,7 +7,7 @@ const User = require("../models/User");
 /* GET users listing. */
 router.get('/:userId', async (req, res) => {
     try {
-        let userData = await User.findById(new mongoose.Types.ObjectId(req.params.userId)); 
+        let user = await User.findById(new mongoose.Types.ObjectId(req.params.userId)); 
         res.send(userData);
     } catch (error) {
         res.sendStatus(404);
