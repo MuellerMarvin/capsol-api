@@ -8,7 +8,7 @@ const User = require("../models/User");
 router.get('/:userId', async (req, res) => {
     try {
         let user = await User.findById(new mongoose.Types.ObjectId(req.params.userId)); 
-        res.send(userData);
+        res.send(user);
     } catch (error) {
         res.sendStatus(404);
     }
