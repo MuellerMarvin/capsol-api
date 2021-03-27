@@ -6,6 +6,7 @@ const { geoSearch } = require('../models/Capsol');
 const Capsol = require("../models/Capsol");
 const Entry = require("../models/Entry");
 
+//#region GET
 // get all capsols
 router.get('/', async (req, res) => {
   let capsols = await Capsol.find({});
@@ -59,6 +60,11 @@ router.get('/:capsolId/entries', async (req, res) => {
 
   res.send(entries);
 });
+//#endregion
+
+//#region POST
+
+//#endregion
 
 module.exports = router;
 
