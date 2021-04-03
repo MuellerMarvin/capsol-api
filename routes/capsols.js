@@ -5,6 +5,7 @@ const { geoSearch } = require('../models/Capsol');
 
 const Capsol = require("../models/Capsol");
 const Entry = require("../models/Entry");
+const User = require("../models/User");
 
 //#region GET
 // get all capsols
@@ -40,7 +41,7 @@ router.get('/around', async (req, res) => {
 // get a single capsol by capsol-id
 router.get('/:capsolId', async (req, res) => {
   try {
-    let capsol = await Capsol.findById(new mongoose.Types.ObjectId(req.params.capsolId)); 
+  let capsol = await Capsol.findById(new mongoose.Types.ObjectId(req.params.capsolId));
     res.send(capsol);
   } catch (error) {
     res.sendStatus(404);
@@ -63,6 +64,33 @@ router.get('/:capsolId/entries', async (req, res) => {
 //#endregion
 
 //#region POST
+router.post('/', async (req, res) => {
+  // create capsol object from request
+  let capsol = req.body.capsol;
+
+  // Check if the user exists
+  try {
+    let count = await User.findById(new mongoose.Types.ObjectId(capsol.author)).countDocuments();
+    if(count < 1) {
+      res.sendStatus(405);
+      return;
+    }
+  }
+  catch(e) {
+    res.sendStatus(500);
+    return;
+  }
+
+  // try and put it into the database
+  try {
+    await Capsol.create(capsol);
+  }
+  catch {
+    res.sendStatus(400);
+    return;
+  }
+  res.sendStatus(200);
+});
 
 //#endregion
 
