@@ -41,7 +41,7 @@ router.get('/around', async (req, res) => {
 // get a single capsol by capsol-id
 router.get('/:capsolId', async (req, res) => {
   try {
-  let capsol = await Capsol.findById(new mongoose.Types.ObjectId(req.params.capsolId));
+    let capsol = await Capsol.findById(new mongoose.Types.ObjectId(req.params.capsolId));
     res.send(capsol);
   } catch (error) {
     res.sendStatus(404);
@@ -70,11 +70,12 @@ router.post('/', async (req, res) => {
 
   // Check if the user exists
   try {
-    let count = await User.findById(new mongoose.Types.ObjectId(capsol.author)).countDocuments();
-    if(count < 1) {
-      res.sendStatus(405);
-      return;
-    }
+    await User.findById(new mongoose.Types.ObjectId(capsol.author)).countDocuments((err, count) => {
+      if(count < 1) {
+        res.sendStatus(405);
+        return;
+      }
+    });
   }
   catch(e) {
     res.sendStatus(500);
