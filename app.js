@@ -5,8 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require("mongoose");
 
+const config = require('./config.json');
+
 // connect to the database
-mongoose.connect("mongodb+srv://compass:REssWo1SRaG4go6o@capsol.hvzq4.mongodb.net/testing?authSource=admin&replicaSet=atlas-l6k0sn-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true", { useNewUrlParser: true })
+mongoose.connect(config.database.connectionString, { useNewUrlParser: true })
 .then(() => {
   console.log("Database connected.");
 });
@@ -15,7 +17,6 @@ mongoose.connect("mongodb+srv://compass:REssWo1SRaG4go6o@capsol.hvzq4.mongodb.ne
 // create routers
 let usersRouter = require('./routes/users');
 let capsolRouter = require('./routes/capsols');
-let entryRouter = require('./routes/entries');
 
 const app = express();
 
@@ -31,7 +32,6 @@ app.use(cookieParser());
 
 app.use('/v1/users', usersRouter);
 app.use('/v1/capsols', capsolRouter);
-app.use('/v1/entries', entryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
