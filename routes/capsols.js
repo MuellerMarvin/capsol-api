@@ -50,14 +50,7 @@ router.get('/:capsolId', async (req, res) => {
 
 // get all entries of a capsol by capsol-id
 router.get('/:capsolId/entries', async (req, res) => {
-  let capsolData = await Capsol.findById(new mongoose.Types.ObjectId(req.params.capsolId));
-  let entryIds = capsolData.entries.map((value) => {
-    return (new mongoose.Types.ObjectId(value));
-  });
-
-  let entries = await Entry.find({
-    '_id': { $in: entryIds }
-  });
+  let entries = await Entry.find({ capsolId: req.params.capsolId });
 
   res.send(entries);
 });
@@ -70,7 +63,7 @@ router.post('/', async (req, res) => {
 
   // Check if the user exists
   try {
-    await User.findById(new mongoose.Types.ObjectId(capsol.author)).countDocuments((err, count) => {
+    await User.findById(new mongoose.Types.ObjectId(capsol.authorId)).countDocuments((err, count) => {
       if(count < 1) {
         res.sendStatus(405);
         return;

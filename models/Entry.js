@@ -1,10 +1,10 @@
 const mongoose = require("mongoose")
 
 const schema = mongoose.Schema({
-    type: String,
+    contentType: String,
     content: Object,
-    author: mongoose.Types.ObjectId,
-    capsol: mongoose.Types.ObjectId,
+    authorId: mongoose.Types.ObjectId,
+    capsolId: mongoose.Types.ObjectId,
 });
 
 module.exports = mongoose.model("Entry", schema, 'entries');
